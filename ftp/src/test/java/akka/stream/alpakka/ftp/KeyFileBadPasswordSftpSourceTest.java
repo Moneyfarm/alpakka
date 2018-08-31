@@ -5,21 +5,21 @@
 package akka.stream.alpakka.ftp;
 
 import java.net.InetAddress;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
-public class RawKeySftpSourceTest extends SftpSourceTest {
+public class KeyFileBadPasswordSftpSourceTest extends SftpSourceTest {
 
   SftpSettings settings() throws Exception {
     // #create-settings
     final SftpSettings settings =
         SftpSettings.create(InetAddress.getByName("localhost"))
             .withPort(getPort())
+            .withCredentials(
+                new FtpCredentials.NonAnonFtpCredentials(
+                    "different user and password", "will fail password auth"))
             .withStrictHostKeyChecking(false) // strictHostKeyChecking
             .withSftpIdentity(
-                SftpIdentity.createRawSftpIdentity(
-                    Files.readAllBytes(Paths.get(getClientPrivateKeyFile().getPath())),
-                    CLIENT_PRIVATE_KEY_PASSPHRASE));
+                SftpIdentity.createFileSftpIdentity(
+                    getClientPrivateKeyFile().getPath(), CLIENT_PRIVATE_KEY_PASSPHRASE));
     // #create-settings
     return settings;
   }

@@ -13,9 +13,6 @@ public class KeyFileSftpSourceTest extends SftpSourceTest {
     final SftpSettings settings =
         SftpSettings.create(InetAddress.getByName("localhost"))
             .withPort(getPort())
-            .withCredentials(
-                new FtpCredentials.NonAnonFtpCredentials(
-                    "different user and password", "will fail password auth"))
             .withStrictHostKeyChecking(false) // strictHostKeyChecking
             .withSftpIdentity(
                 SftpIdentity.createFileSftpIdentity(
@@ -23,5 +20,4 @@ public class KeyFileSftpSourceTest extends SftpSourceTest {
     // #create-settings
     return settings;
   }
-
 }
